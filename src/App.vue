@@ -1,12 +1,22 @@
 <template>
   <div id="app" class='icon-enter'>
-    <div class="test"></div>
+    <div @click="src = !src" class="test"></div>
+    <cropper :src="src"></cropper>
   </div>
 </template>
 
 <script>
+import Cropper from 'base/cropper/cropper'
   export default {
-	name: 'App'
+    name: 'App',
+    data() {
+      return {
+        src: false
+      }
+    },
+    components: {
+      Cropper
+    }
   }
 </script>
 
@@ -16,7 +26,9 @@
     background pink
     height 50px
     .test
-      width 16px
-      height 16px
+      width 166px
+      height 166px
       background black
+    img 
+      max-width 100%
 </style>
