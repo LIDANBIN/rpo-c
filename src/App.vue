@@ -1,23 +1,22 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
+  <div id="app" class='icon-enter'>
+    <div class="test"></div>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'App'
-}
+  export default {
+	name: 'App'
+  }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style scoped lang="stylus" rel="stylesheet/stylus">
+  #app
+    width 375px
+    background pink
+    height 50px
+    .test
+      width 16px
+      height 16px
+      background black
 </style>
