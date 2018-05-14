@@ -1,34 +1,40 @@
 <template>
-  <div id="app" class='icon-enter'>
-    <div @click="src = !src" class="test"></div>
-    <cropper :src="src"></cropper>
+  <div id="app">
+    <avatar></avatar>
   </div>
 </template>
 
 <script>
-import Cropper from 'base/cropper/cropper'
-  export default {
-    name: 'App',
-    data() {
-      return {
-        src: false
-      }
-    },
-    components: {
-      Cropper
-    }
+import tool from "&/scripts/tools";
+import Avatar from '@/avatar/avatar'
+export default {
+  name: "App",
+  data() {
+    return {
+      url: false,
+      src: ''
+    };
+  },
+  components: {
+    Avatar
   }
+};
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-  #app
-    width 375px
-    background pink
-    height 50px
-    .test
-      width 166px
-      height 166px
-      background black
-    img 
-      max-width 100%
+#app {
+  width: 375px;
+  background: pink;
+  height: 50px;
+
+  .test {
+    width: 166px;
+    height: 166px;
+    background: black;
+  }
+
+  img {
+    max-width: 100%;
+  }
+}
 </style>

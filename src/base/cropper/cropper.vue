@@ -1,16 +1,34 @@
 <template>
-  <div id="cropper-wrapper">
+  <div ref="wrapper" id="cropper-wrapper">
   </div>
 </template>
 
 <script>
+if (!HTMLCanvasElement.prototype.toBlob) {
+  Object.defineProperty(HTMLCanvasElement.prototype, "toBlob", {
+    value: function(callback, type, quality) {
+      var binStr = atob(this.toDataURL(type, quality).split(",")[1]),
+        len = binStr.length,
+        arr = new Uint8Array(len);
+      for (var i = 0; i < len; i++) {
+        arr[i] = binStr.charCodeAt(i);
+      }
+      callback(new Blob([arr], { type: type || "image/png" }));
+    }
+  });
+}
+import Cropper from "cropperjs";
 import tool from "&/scripts/tools";
 export default {
   name: "copper",
   props: {
-    src: {
-      type: Boolean,
-      default: false
+    imgUrl: {
+      type: String,
+      default: ""
+    },
+    ratio: {
+      type: Number,
+      default: 1
     }
   },
   data() {
@@ -30,48 +48,72 @@ export default {
       var vm = this;
       var myImage = (function() {
         return {
-          setSrc: function(src) {
-            imgNode.src = src;
+          setSrc: function(imgUrl) {
+            imgNode.src = imgUrl;
           }
         };
       })();
       var proxyImage = (function() {
         var img = new Image();
         img.onload = function() {
-          console.log("图片加载成功。");
           myImage.setSrc(this.src);
-          // 图片加载成功 在此执行图片剪切裁剪工作
-          // vm.cropPicture(imgNode);
+          vm.initCropper(imgNode);
         };
         return {
-          setSrc: function(src) {
-            myImage.setSrc(
-              "http://cdn.uedna.com/201402/1392662594759_1140x0.gif"
-            );
-            img.src = src;
+          setSrc: function(imgUrl) {
+            myImage.setSrc("static/loading.gif");
+            img.src = imgUrl;
           }
         };
       })();
-      proxyImage.setSrc(
-        "https://i0.hdslb.com/bfs/album/67acb99add41a4ef2df28ecfd229be7e7f2fe802.jpg"
-      );
+      proxyImage.setSrc(this.imgUrl);
     },
-    cropPicture(imgNode) {
-      // var image = document.getElementById("image");
-      var cropper = new Cropper(imgNode, {
-        aspectRatio: 16 / 9,
-        crop: function(event) {
-          console.log(event.detail.x);
-          console.log(event.detail.y);
+    initCropper(imgNode) {
+      if (this.cropper) {
+        return;
+      }
+      this.width = this.$refs.wrapper.clientWidth;
+      this.height = this.$refs.wrapper.clientHeight;
+      this.cropper = new Cropper(imgNode, {
+        aspectRatio: this.ratio,
+        viewMode: 0,
+        dragMode: "move",
+        center: false,
+        zoomOnWheel: true,
+        movable: true,
+        resizable: true,
+        autoCropArea: 1,
+        minContainerWidth: "100%",
+        background: true,
+        ready: () => {
+          this.croppable = true;
         }
       });
+    },
+    crop() {
+      let croppedCanvas;
+      if (!this.croppable) {
+        return;
+      }
+      croppedCanvas = this.cropper.getCroppedCanvas();
+      croppedCanvas.toBlob(async blob => {
+        console.log(blob.size, "before");
+        if (blob.size > 1048000) {
+          blob = await tool.compressBlob(blob, {
+            width: this.width,
+            height: this.height
+          });
+        }
+        console.log(blob.size, "after");
+        this.$emit("crop", blob);
+      }, "image/jpg");
     }
   },
   watch: {
-    src() {
+    imgUrl(next) {
       // 当URL发生改变时才创建image对象
-      console.log(this.src)
       var imgNode = this.createSingleImage();
+      this.cropper && this.cropper.replace(next);
       this.imageLoad(imgNode);
     }
   }
@@ -79,8 +121,9 @@ export default {
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-#copper-wrapper {
+#cropper-wrapper {
   width: 100%;
+  height: 100%;
 
   img {
     width: 100%;
