@@ -6,6 +6,10 @@ import 'cropperjs/dist/cropper.css'
 
 import '&/style/index.styl'
 import '&/scripts/flexible'
+
+import tool from "&/scripts/tools";
+Vue.prototype._ = tool
+
 Vue.config.productionTip = false
 
 new Vue({

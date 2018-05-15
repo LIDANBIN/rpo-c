@@ -1,12 +1,16 @@
 <template>
   <div id="app">
-    <avatar></avatar>
+    <!-- <avatar></avatar> -->
+    <my-header></my-header>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 import tool from "&/scripts/tools";
 import Avatar from '@/avatar/avatar'
+import myHeader from '@/my-header/my-header'
+
 export default {
   name: "App",
   data() {
@@ -16,25 +20,13 @@ export default {
     };
   },
   components: {
-    Avatar
+    Avatar,
+    myHeader
   }
 };
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-#app {
-  width: 375px;
-  background: pink;
-  height: 50px;
-
-  .test {
-    width: 166px;
-    height: 166px;
-    background: black;
-  }
-
-  img {
-    max-width: 100%;
-  }
-}
+#app
+  width: 750px;
 </style>

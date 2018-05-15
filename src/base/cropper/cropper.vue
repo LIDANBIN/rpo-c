@@ -1,5 +1,6 @@
 <template>
   <div ref="wrapper" id="cropper-wrapper">
+    <div class="small" ref="preview"></div>
   </div>
 </template>
 
@@ -18,7 +19,6 @@ if (!HTMLCanvasElement.prototype.toBlob) {
   });
 }
 import Cropper from "cropperjs";
-import tool from "&/scripts/tools";
 export default {
   name: "copper",
   props: {
@@ -29,11 +29,15 @@ export default {
     ratio: {
       type: Number,
       default: 1
+    },
+    preview: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
     return {
-      createSingleImage: tool.getInstance(this.createImage)
+      createSingleImage: this._.getInstance(this.createImage)
     };
   },
   created() {},
@@ -41,32 +45,19 @@ export default {
     createImage() {
       var cropperWrapper = document.getElementById("cropper-wrapper");
       var imgNode = document.createElement("img");
-      cropperWrapper.appendChild(imgNode);
+      cropperWrapper.insertBefore(imgNode, this.$refs.preview);
       return imgNode;
     },
     imageLoad(imgNode) {
       var vm = this;
-      var myImage = (function() {
-        return {
-          setSrc: function(imgUrl) {
-            imgNode.src = imgUrl;
-          }
-        };
-      })();
-      var proxyImage = (function() {
-        var img = new Image();
-        img.onload = function() {
-          myImage.setSrc(this.src);
-          vm.initCropper(imgNode);
-        };
-        return {
-          setSrc: function(imgUrl) {
-            myImage.setSrc("static/loading.gif");
-            img.src = imgUrl;
-          }
-        };
-      })();
-      proxyImage.setSrc(this.imgUrl);
+      var img = new Image();
+      img.onload = function() {
+        vm.$refs.wrapper.style.height = "500px";
+        imgNode.src = vm.imgUrl;
+        vm.initCropper(imgNode);
+      };
+      imgNode.src = "static/loading.gif";
+      img.src = this.imgUrl;
     },
     initCropper(imgNode) {
       if (this.cropper) {
@@ -76,17 +67,21 @@ export default {
       this.height = this.$refs.wrapper.clientHeight;
       this.cropper = new Cropper(imgNode, {
         aspectRatio: this.ratio,
-        viewMode: 0,
-        dragMode: "move",
+        viewMode: 1,
+        dragMode: "crop",
         center: false,
         zoomOnWheel: true,
+        zoomOnTouch: true,
         movable: true,
         resizable: true,
+        responsive: true,
         autoCropArea: 1,
+        preview: this.preview ? ".small" : "",
         minContainerWidth: "100%",
         background: true,
         ready: () => {
           this.croppable = true;
+          this.$refs.wrapper.style.height = "auto";
         }
       });
     },
@@ -99,7 +94,7 @@ export default {
       croppedCanvas.toBlob(async blob => {
         console.log(blob.size, "before");
         if (blob.size > 1048000) {
-          blob = await tool.compressBlob(blob, {
+          blob = await this._.compressBlob(blob, {
             width: this.width,
             height: this.height
           });
@@ -121,12 +116,15 @@ export default {
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-#cropper-wrapper {
-  width: 100%;
-  height: 100%;
-
-  img {
-    width: 100%;
-  }
-}
+#cropper-wrapper
+  width 100%
+  margin 10px 0
+  .small
+    height 300px
+    overflow hidden
+    border-radius 50%
+    width 300px
+    margin 30px auto
+  img
+    max-width 100%
 </style>
