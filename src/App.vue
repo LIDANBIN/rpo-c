@@ -28,5 +28,5 @@ export default {
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
 #app
-  width: 750px;
+  width: 100%;
 </style>

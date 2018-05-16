@@ -1,5 +1,5 @@
 <template>
-  <div class="header-wrapper">
+  <header class="header-wrapper">
     <div class="title-wrapper">
         卓聘家
     </div>
@@ -7,7 +7,7 @@
       <router-link class="tab" to="/observer">职场观察</router-link>
       <router-link class="tab" to="/recommend">职场内推</router-link>
     </div>
-  </div>
+  </header>
 </template>
 
 <script>
@@ -18,7 +18,12 @@ export default {
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
 .header-wrapper
-  text-align center 
+  text-align center
+  position fixed
+  top 0
+  left 0
+  width 100%
+  background rgba(111, 232, 44, .5)
   .title-wrapper
     height 280px
     line-height 280px
