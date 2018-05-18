@@ -1,37 +1,73 @@
 <template>
   <header class="header-wrapper">
-    <div class="title-wrapper">
-        卓聘家
+    <div class="title-wrapper" :class="[type]">
     </div>
     <div class="tab-wrapper">
-      <router-link class="tab" to="/observer">职场观察</router-link>
-      <router-link class="tab" to="/recommend">职场内推</router-link>
+      <router-link class="tab center" to="/observer"><span>职场观察</span></router-link>
+      <router-link class="tab center" to="/recommend"><span>职场内推</span></router-link>
     </div>
   </header>
 </template>
 
 <script>
 export default {
-  name: "myHeader"
+  name: "myHeader",
+  props: ["type"]
 };
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-.header-wrapper
-  text-align center
-  background rgba(111, 232, 44, .5)
-  .title-wrapper
-    height 280px
-    line-height 280px
-    font-size 60px /*px*/
-    border 1px dotted #5587d7 /*no*/
-  .tab-wrapper
-    display flex
-    .tab
-      flex 1
-      line-height 120px
-      font-size 40px /*px*/
-      &.router-link-active
-        border-bottom 6px solid #5587d7 /*no*/
+@import '~&/style/mixin.styl';
+@import '~&/style/variable.styl';
 
+.header-wrapper {
+  text-align: center;
+
+  .title-wrapper {
+    height: 180px;
+    background-size: cover;
+
+    &.observer {
+      bg-image('observer');
+    }
+
+    &.recommend {
+      bg-image('recommend');
+    }
+  }
+
+  .tab-wrapper {
+    display: flex;
+
+    .tab {
+      flex: 1;
+      background: $color-background-d;
+      line-height: 44px;
+      position: relative;
+      l-font(28px);
+      color: $color-text;
+
+      &:first-child:after {
+        position: absolute;
+        content: '';
+        display: block;
+        height: 60%;
+        width: 1px; /*no*/
+        top: 50%;
+        transform: translateY(-50%);
+        background: $color-theme-l;
+        right: 0;
+      }
+
+      &.router-link-active {
+        span {
+          border-bottom: 6px solid $color-theme; /* no */
+          height: 44px;
+          padding: 0 10px;
+          display: inline-block;
+        }
+      }
+    }
+  }
+}
 </style>

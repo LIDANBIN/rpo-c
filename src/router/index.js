@@ -2,9 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Observer from '@/observer/observer'
-import Recommend from '@/recommend/recommend'
-import Avatar from '@/avatar/avatar'
-import ObserverDetail from '@/observer-detail/observer-detail'
 
 Vue.use(Router)
 
@@ -17,20 +14,22 @@ export default new Router({
     {
       path: '/observer',
       component: Observer,
-      children: [
-        {
-          path: 'detail',
-          component: ObserverDetail
-        }
-      ]
+    },
+    {
+      path: '/observer/detail',
+      component: resolve => require(['@/observer-detail/observer-detail'], resolve)
     },
     {
       path: '/recommend',
-      component: Recommend
+      component: resolve => require(['@/recommend/recommend'], resolve)
+    },
+    {
+      path: '/recommend/detail',
+      component: resolve => require(['@/recommend-detail/recommend-detail'], resolve)
     },
     {
       path: '/usercenter',
-      component: Avatar
+      component: resolve => require(['@/avatar/avatar'], resolve)
     }
   ]
 })

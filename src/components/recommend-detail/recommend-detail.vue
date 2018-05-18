@@ -1,6 +1,6 @@
 <template>
   <div class="observer-detail-wrapper center">
-      那个辞职看世界的人
+      唯品会专场招聘
   </div>
 </template>
 

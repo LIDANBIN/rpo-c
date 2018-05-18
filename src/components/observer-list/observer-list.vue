@@ -1,30 +1,75 @@
 <template>
   <div class="observer-list-wrapper">
-      <router-link to="/observer/detail">那个辞职看世界的人</router-link>
+      <img class="picture" src="" alt="">
+      <div class="infos">
+        <h3 class="info-title"><router-link to="/observer/detail">那个辞职去看世界的人，后来过得怎么样了？</router-link></h3>
+        <p class="introduction">裸辞、转行、Gap Year，你准备好了吗？</p>
+      </div>
+      <router-link to="/observer/detail" class="apply">猛戳报名<span class="icon-enter"></span></router-link>
   </div>
 </template>
 
 <script>
-
 export default {
   name: "observer-list",
   data() {
-    return {
-     
-    };
+    return {};
   },
-  components: {
-
-  }
+  components: {}
 };
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-    .observer-list-wrapper
-        height 300px
-        line-height 300px
-        font-size 60px /*px*/
-        box-shadow 0 0 10px 0 #ccc
-        margin 20px 15px
-        padding 0 20px
+@import '~&/style/variable.styl';
+@import '~&/style/mixin.styl';
+
+.observer-list-wrapper {
+  height: 110px;
+  background: $color-background-d;
+  margin: 13px 0;
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+
+  .picture {
+    width: 27%;
+    height: 73px;
+    border: 1px dotted #5587d7;
+  }
+
+  .infos {
+    width: 60%;
+    height: 73px;
+    margin-left: 15px;
+    line-height: 18px;
+
+    .info-title {
+      height: 36px;
+      overflow: hidden;
+
+      a {
+        l-font(26px);
+        color: $color-text-t;
+      }
+    }
+
+    .introduction {
+      color: $color-text-d;
+      no-wrap();
+    }
+  }
+
+  .apply {
+    color: $color-text-b;
+    position: absolute;
+    l-font(24px);
+    right: 13px;
+    bottom: 7px;
+
+    .icon-enter {
+      l-font(24px);
+    }
+  }
+}
 </style>

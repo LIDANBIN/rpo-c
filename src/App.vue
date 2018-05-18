@@ -6,25 +6,18 @@
 
 <script>
 import tool from "&/scripts/tools";
-import Avatar from '@/avatar/avatar'
-// import myHeader from '@/my-header/my-header'
 
 export default {
   name: "App",
   data() {
-    return {
-      url: false,
-      src: ''
-    };
+    return {};
   },
-  components: {
-    Avatar,
-    // myHeader
-  }
+  components: {}
 };
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-#app
+#app {
   width: 100%;
+}
 </style>
