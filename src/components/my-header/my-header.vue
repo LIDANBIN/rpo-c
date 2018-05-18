@@ -19,10 +19,6 @@ export default {
 <style scoped lang="stylus" rel="stylesheet/stylus">
 .header-wrapper
   text-align center
-  position fixed
-  top 0
-  left 0
-  width 100%
   background rgba(111, 232, 44, .5)
   .title-wrapper
     height 280px

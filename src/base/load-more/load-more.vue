@@ -1,5 +1,7 @@
 <template>
-  <div class="load-more-wrapper">
+  <div class="load-more-wrapper"
+              @scroll="handleScroll" 
+  >
         <div
             class="load-more-inner"
             ref="wrapper"
@@ -8,10 +10,10 @@
             @touchend="handleEnd"
         >
             <!-- 下拉刷新 页面滚动到顶部并且手指向下滑动-->
-            <header class="header tips center" :class="{loading: loading}" ref="headerTip">
+            <header class="header tips center" :class="[refreshing?'refreshing':'']" ref="headerTip">
                 <slot name="pull-refresh">
-                    <div v-show="!loading">松开加载。</div>
-                    <div v-show="loading">加载中……</div>
+                    <div v-show="!refreshing">松开加载。</div>
+                    <div v-show="refreshing">加载中……</div>
                 </slot>
             </header>
             <!-- 信息列表 -->
@@ -38,18 +40,24 @@ export default {
     onInfinite: {
       type: Function,
       default: undefined,
-      require: false
+      require: true
+    },
+    onRefresh: {
+      type: Function,
+      default: undefined,
+      require: true
     },
     maxPullDis: {
       type: Number,
-      default: 100,
+      default: 200,
       require: false
     }
   },
   data() {
     return {
       touchInfos: {},
-      loading: false
+      loading: false,
+      refreshing: false,
     };
   },
   methods: {
@@ -61,19 +69,38 @@ export default {
       if (this.$el.scrollTop > 0) {
         return;
       }
-      let disY =
-        (this.touchInfos.nowY = e.targetTouches[0].pageY) -
-        this.touchInfos.startY;
+      let disY = (this.touchInfos.nowY = e.targetTouches[0].pageY) - this.touchInfos.startY;
       let diff = (this.touchInfos.diff = disY - this.touchInfos.startScroll);
-    //   console.log(diff);
       if (diff > 0) e.preventDefault();
       this.$refs.wrapper.style.transform = `translateY(${diff}px)`;
     },
     handleEnd() {
       if (this.touchInfos.diff >= this.maxPullDis) {
-        this.loading = true;
+        this.refreshing = true;
+        this.onRefresh(this.refreshDone)
       }
       this.$refs.wrapper.style.transform = `translateY(0px)`;
+    },
+    refreshDone() {
+      this.refreshing = false;
+    },
+    handleScroll() {
+      if (this.infiniting) {
+        return;
+      }
+      clearTimeout(this.timer)
+			let scrollY = this.$el.scrollTop
+      let clientHeight = this.$el.clientHeight
+      let scrollHeight = this.$el.scrollHeight
+			this.timer = setTimeout(() => {
+				if ((clientHeight + scrollY) >= scrollHeight) {
+          this.infiniting = true
+          this.onInfinite(this.infiniteDone)
+        }
+			}, 50)
+    },
+    infiniteDone() {
+      this.infiniting = false
     }
   }
 };
@@ -86,7 +113,7 @@ export default {
 
     .load-more-inner {
         -webkit-overflow-scrolling: touch;
-        transition: transform linear;
+        transition: transform .3s cubic-bezier(.33,1.12,.34,1.11);
 
         .contents {
             overflow: hidden;
@@ -100,8 +127,8 @@ export default {
 
             &.header {
                 margin-top: -100px;
-
-                &.loading {
+                transition: all .2s;
+                &.refreshing {
                     margin-top: 0;
                 }
             }

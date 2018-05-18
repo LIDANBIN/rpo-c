@@ -1,13 +1,13 @@
 <template>
   <div class="observer-list-wrapper">
-      <router-link to="/observer/detail">那个辞职看世界的人</router-link>
+      唯品会招聘专场
   </div>
 </template>
 
 <script>
 
 export default {
-  name: "observer-list",
+  name: "recommend-list",
   data() {
     return {
      
@@ -23,6 +23,7 @@ export default {
     .observer-list-wrapper
         height 300px
         line-height 300px
+        background #fff
         font-size 60px /*px*/
         box-shadow 0 0 10px 0 #ccc
         margin 20px 15px
