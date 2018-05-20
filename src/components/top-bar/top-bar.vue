@@ -1,5 +1,5 @@
 <template>
-  <div class="top-bar-wrapper">
+  <div class="top-bar-wrapper" :style="{backgroundColor: backgroundColor}">
       <div class="left-item item">
           <slot name="left"></slot>
       </div>
@@ -14,7 +14,13 @@
 
 <script>
 export default {
-  name: "top-bar"
+  name: "top-bar",
+  props: {
+      backgroundColor: {
+          type: String,
+          default: ''
+      }
+  }
 };
 </script>
 

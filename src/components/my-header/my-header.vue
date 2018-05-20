@@ -26,6 +26,7 @@ export default {
   .title-wrapper {
     height: 180px;
     background-size: cover;
+    background-position: center;
 
     &.observer {
       bg-image('observer');

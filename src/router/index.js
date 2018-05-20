@@ -30,6 +30,10 @@ export default new Router({
     {
       path: '/usercenter',
       component: resolve => require(['@/avatar/avatar'], resolve)
+    },
+    {
+      path: '/job/detail',
+      component: resolve => require(['@/job-detail/job-detail'], resolve)
     }
   ]
 })

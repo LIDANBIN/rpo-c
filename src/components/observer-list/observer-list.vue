@@ -1,6 +1,6 @@
 <template>
   <div class="observer-list-wrapper">
-      <img class="picture" src="" alt="">
+      <img class="picture" src="./pic.jpeg" alt="">
       <div class="infos">
         <h3 class="info-title"><router-link to="/observer/detail">那个辞职去看世界的人，后来过得怎么样了？</router-link></h3>
         <p class="introduction">裸辞、转行、Gap Year，你准备好了吗？</p>
@@ -35,7 +35,6 @@ export default {
   .picture {
     width: 27%;
     height: 73px;
-    border: 1px dotted #5587d7;
   }
 
   .infos {

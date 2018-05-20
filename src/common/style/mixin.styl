@@ -7,8 +7,19 @@ bg-image($url)
 // 字体
 l-font($size)
   font-size: $size; /*px*/
-
+// 边框
+l-border($style)
+  border: $style; /*no*/ 
+// 单行省略
 no-wrap()
   text-overflow: ellipsis
   overflow: hidden
   white-space: nowrap
+
+// 多行省略
+multi-no-wrap($rows)
+  overflow : hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: $rows;
+  -webkit-box-orient: vertical;
