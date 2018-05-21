@@ -16,10 +16,10 @@
 export default {
   name: "top-bar",
   props: {
-      backgroundColor: {
-          type: String,
-          default: ''
-      }
+    backgroundColor: {
+      type: String,
+      default: ""
+    }
   }
 };
 </script>
@@ -27,18 +27,15 @@ export default {
 <style scoped lang="stylus" rel="stylesheet/stylus">
 @import '~&/style/variable.styl';
 
-.top-bar-wrapper {
-    height: 44px;
-    position: fixed;
-    z-index: 100;
-    top: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: space-between;
-
-    .item {
-        line-height: 44px;
-    }
-}
+.top-bar-wrapper
+    height 44px
+    position fixed
+    z-index 100
+    top 0
+    left 0
+    right 0
+    display flex
+    justify-content space-between
+    .item
+        line-height 44px
 </style>

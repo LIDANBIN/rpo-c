@@ -6,7 +6,7 @@
         <my-menus slot="right"></my-menus>
       </top-bar>
       <div class="article-wrapper">
-        <h1 class="article-title">那个辞职去看世界的人，后来过得怎么样了？</h1>
+        <h1 class="article-title bold">那个辞职去看世界的人，后来过得怎么样了？</h1>
         <div><span class="author-name">卓聘家·卓小家</span><span class="publish-time">{{'2018-05-19'}}</span></div>
         <img class="illustration" src="" alt="">
         <p class="article-content">
@@ -22,7 +22,7 @@ import myMenus from "@/my-menus/my-menus"
 import topBar from "@/top-bar/top-bar";
 
 export default {
-  name: "observer-list",
+  name: "observer-detail",
   data() {
     return {};
   },

@@ -1,13 +1,13 @@
 <template>
-  <div class="recommend-detail-wrapper">
+  <div class="job-detail-wrapper">
     <top-bar :backgroundColor="'#FFDB01'">
-    <div slot="left" class="icon-fanhui center" @touchend="handleEnd"></div>
-    <div class="center-title">职位详情</div>
-    <my-menus slot="right"></my-menus>
+        <div slot="left" class="icon-fanhui center" @touchend="handleEnd"></div>
+        <div class="center-title">职位详情</div>
+        <my-menus slot="right"></my-menus>
     </top-bar>
     <div class="job-wrapper">
         <div class="job-name">
-            <span class="name"><router-link to="/job/detail">{{'web前端开发工程师'}}</router-link></span>
+            <span class="name"><router-link to="/job/detail" class="bold">{{'web前端开发工程师'}}</router-link></span>
             <span class="time">{{24}}小时内反馈</span>
             <span class="salary">{{10}}k-{{15}}k</span>
         </div>
@@ -20,30 +20,30 @@
     <h3 class="job-title center">职位描述</h3>
     <div class="job-describle">
     
-    工作职责：<br>
-    1、对汽车后市场需求进行深度调研，探索车后市场的变现
-    模式；<br>
-    2、负责业务商业变现产品的模式设计、执行；<br>
-    3、负责相关系统设计；<br>
-    4、协调相关各部门资源，推进产品需求落地。<br>
-    <br><br>
-    岗位要求：<br>
-    1、对商业模式有热情，有良好的商业感觉，能够把握用户
-    和合作伙伴的核心诉求；<br>
-    2、产品设计能力，将需求转化为线上产品，并推动产品上
-    线，做到快速试点、推广；<br>
-    3、以目标为导向，优秀的沟通协作能力；<br>
-    4、1年以上工作经验，有商业产品工作经验优。<br>
+        工作职责：<br>
+        1、对汽车后市场需求进行深度调研，探索车后市场的变现
+        模式；<br>
+        2、负责业务商业变现产品的模式设计、执行；<br>
+        3、负责相关系统设计；<br>
+        4、协调相关各部门资源，推进产品需求落地。<br>
+        <br><br>
+        岗位要求：<br>
+        1、对商业模式有热情，有良好的商业感觉，能够把握用户
+        和合作伙伴的核心诉求；<br>
+        2、产品设计能力，将需求转化为线上产品，并推动产品上
+        线，做到快速试点、推广；<br>
+        3、以目标为导向，优秀的沟通协作能力；<br>
+        4、1年以上工作经验，有商业产品工作经验优。<br>
     
     </div>
   </div>
 </template>
 
 <script>
-import myMenus from "@/my-menus/my-menus"
+import myMenus from "@/my-menus/my-menus";
 import topBar from "@/top-bar/top-bar";
 export default {
-  name: "observer-list",
+  name: "job-detail",
   data() {
     return {
       online: true,
@@ -65,7 +65,8 @@ export default {
 <style scoped lang="stylus" rel="stylesheet/stylus">
 @import '~&/style/variable.styl';
 @import '~&/style/mixin.styl';
-.recommend-detail-wrapper
+
+.job-detail-wrapper
     padding 44px 0 15px
     min-height 100vh
     .icon-fanhui
@@ -73,7 +74,7 @@ export default {
         font-weight bold
         color #000
         width 50px
-    .center-title
+    .center-title 
         l-font(40px)
     .job-wrapper
         margin-top 13px
@@ -87,8 +88,7 @@ export default {
             display flex
             color $color-text-t
             align-items center
-            .name
-            no-wrap()
+            .name, no-wrap()
                 max-width 60%
             a
                 color $color-text-t
@@ -104,7 +104,7 @@ export default {
                 flex-grow 1
                 l-font(28px)
                 color #ff3e3e
-                text-align right 
+                text-align right
         .info
             line-height 50px
             color $color-text-d

@@ -28,12 +28,16 @@ export default new Router({
       component: resolve => require(['@/recommend-detail/recommend-detail'], resolve)
     },
     {
-      path: '/usercenter',
-      component: resolve => require(['@/avatar/avatar'], resolve)
+      path: '/user/center',
+      component: resolve => require(['@/user-center/user-center'], resolve)
     },
     {
       path: '/job/detail',
       component: resolve => require(['@/job-detail/job-detail'], resolve)
+    },
+    {
+      path: '/company/detail',
+      component: resolve => require(['@/company-detail/company-detail'], resolve)
     }
   ]
 })

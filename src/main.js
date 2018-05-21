@@ -2,6 +2,10 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
+import FastClick from 'fastclick'
+
+FastClick.attach(document.body);
+
 import 'cropperjs/dist/cropper.css'
 
 import '&/style/index.styl'

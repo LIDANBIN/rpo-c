@@ -6,10 +6,10 @@
         <my-menus slot="right"></my-menus>
       </top-bar>
       <div class="recommend">
-        <div class="title-wrapper">
-          <h2><router-link to="/recommend/detail" class="title">广州第七城Java专场招聘会</router-link></h2>
+        <h2 class="title-wrapper bold">
+          <router-link to="/recommend/detail" class="title">广州第七城Java专场招聘会</router-link>
           <span :class="[online?'online':'offline']">{{online?'线上':'线下'}}</span>
-        </div>
+        </h2>
         <div class="offer-number">
           <span class="number">{{'500+'}}</span>家企业·<span class="number">{{'5000+'}}</span>职位机会
         </div>
@@ -28,12 +28,12 @@
           </label>
           <div class="job-infos">
             <div class="job-name">
-              <span class="name"><router-link to="/job/detail">{{'web前端开发工程师'}}</router-link></span>
+              <span class="name"><router-link class="bold" to="/job/detail">{{'web前端开发工程师'}}</router-link></span>
               <span class="time">{{24}}小时内反馈</span>
               <span class="salary">{{10}}k-{{15}}k</span>
             </div>
             <div class="info">
-              {{'深圳'}}<span class="line">|</span>{{3}}到{{5}}年<span class="line">|</span>{{'本科'}}
+              {{'深圳'}}<span class="line">|</span>{{3}}-{{5}}年<span class="line">|</span>{{'本科'}}
             </div>
             <div class="company"><router-link to="/company/detail">{{'广州唯品会电子商务有限公司'}}</router-link><span class="icon-enter"></span></div>
           </div>
@@ -46,7 +46,7 @@
 import myMenus from "@/my-menus/my-menus"
 import topBar from "@/top-bar/top-bar";
 export default {
-  name: "observer-list",
+  name: "recommend-detail",
   data() {
     return {
       online: true,

@@ -15,7 +15,7 @@ import myHeader from "@/my-header/my-header";
 import loadMore from "base/load-more/load-more";
 import observerList from "@/observer-list/observer-list";
 import topBar from "@/top-bar/top-bar";
-import myMenus from "@/my-menus/my-menus"
+import myMenus from "@/my-menus/my-menus";
 
 export default {
   name: "observer",
@@ -53,7 +53,7 @@ export default {
 <style scoped lang="stylus" rel="stylesheet/stylus">
 @import '~&/style/variable.styl';
 @import '~&/style/mixin.styl';
-.observer-wrapper {
-  height: 100vh;
-}
+
+.observer-wrapper
+  height 100vh
 </style>

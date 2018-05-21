@@ -1,7 +1,7 @@
 <template>
   <div class="recommend-list-wrapper">
       <div class="title-wrapper">
-        <h2><router-link to="/recommend/detail" class="title">广州第七城Java专场招聘会</router-link></h2>
+        <h2><router-link to="/recommend/detail" class="title bold">广州第七城Java专场招聘会</router-link></h2>
         <span :class="[online?'online':'offline']">{{online?'线上':'线下'}}</span>
       </div>
       <div class="offer-number">
@@ -29,54 +29,47 @@ export default {
 <style scoped lang="stylus" rel="stylesheet/stylus">
 @import '~&/style/variable.styl';
 @import '~&/style/mixin.styl';
-.recommend-list-wrapper {
-  height: 106px;
-  background: $color-background-d;
-  margin: 13px 0;
-  padding: 14px 14px 14px 16px;
-  .title-wrapper {
+
+.recommend-list-wrapper
+  height 106px
+  background $color-background-d
+  margin 13px 0
+  padding 14px 14px 14px 16px
+  .title-wrapper
     display flex
     line-height 20px
     l-font(28px)
-    align-items: center;
-    .title {
-          color $color-text-t
-    }
-    span {
+    align-items center
+    .title
+      color $color-text-t
+    span
       color $color-line-b
       margin-left 13px
       padding 0 5px
       border-radius 2px
-      height 16px
+      height: 16px
       line-height 16px
       l-font(18px)
       l-border(1px solid $color-line-b)
-      &.offline {
+      &.offline
         color $color-text-t
         border-color #dcdcdc
-      }
-    }
-  }
-  .offer-number {
+  .offer-number
     l-font(26px)
     color #2a2a2a
     line-height 38px
-    .number {
+    .number
       color #ff5b5a
-    }
-  }
-  .position-time {
+  .position-time
     l-font(24px)
     color #969696
     position relative
-    .icon {
+    .icon
       l-font(24px)
       margin 0 3px 0 0
-      &:last-of-type {
+      &:last-of-type
         margin-left 10px
-      }
-    }
-    .apply {
+    .apply
       width 80px
       position absolute
       right 0
@@ -84,10 +77,7 @@ export default {
       height 25px
       color $color-text-t
       display inline-block
-      background radial-gradient(#FEDA02, #FEDA02)
+      background radial-gradient(#FEDA02, #FEDB02)
       line-height 25px
       border-radius 20px
-    }
-  }
-}
 </style>

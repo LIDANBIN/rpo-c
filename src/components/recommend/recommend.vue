@@ -13,7 +13,7 @@
 <script>
 import myHeader from "@/my-header/my-header";
 import topBar from "@/top-bar/top-bar";
-import myMenus from "@/my-menus/my-menus"
+import myMenus from "@/my-menus/my-menus";
 
 import loadMore from "base/load-more/load-more";
 import recommendList from "@/recommend-list/recommend-list";
@@ -53,9 +53,10 @@ export default {
 <style scoped lang="stylus" rel="stylesheet/stylus">
 @import '~&/style/variable.styl';
 @import '~&/style/mixin.styl';
-.recommend-wrapper {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
+
+.recommend-wrapper
+  height 100vh
+  display flex
+  flex-direction column
+
 </style>
