@@ -6,18 +6,15 @@
         <my-menus slot="right"></my-menus>
       </top-bar>
       <div class="basic-information-wrapper">
-          <label>
-                <div class="avatar">
-              
-                </div>
-                <input style="display: none" type="file" name="" id="">
-          </label>
-          <div class="basic-information">
-						<p class="user-name bold">{{userInfo.name}}</p>
-						<p class="user-info">{{userInfo.position}} | {{userInfo.education}} | {{userInfo.workingYears}}年工作经验</p>
-						<p class="user-phone"><span class="icon icon-dianhua"></span>{{userInfo.phone}}</p>
-						<p class="user-email"><span class="icon icon-xinfeng"></span>{{userInfo.email}}</p>
-          </div>
+			<div class="avatar file">
+				<input type="file" name="">
+			</div>
+			<div class="basic-information">
+				<p class="user-name bold">{{userInfo.name}}</p>
+				<p class="user-info">{{userInfo.position}} | {{userInfo.education}} | {{userInfo.workingYears}}年工作经验</p>
+				<p class="user-phone"><span class="icon icon-dianhua"></span>{{userInfo.phone}}</p>
+				<p class="user-email"><span class="icon icon-xinfeng"></span>{{userInfo.email}}</p>
+			</div>
           <div class="edit icon-xiugai" @touchend="handleEdit"></div>
       </div>
 			<div class="user-collection-wrapper">
@@ -146,8 +143,17 @@ export default {
 		.avatar
 			width 100px
 			height 100px
+			position relative
 			border 1px dotted #5587d7
 			border-radius 50%
+			overflow hidden
+			input
+				opacity 0
+				position absolute
+				top 0
+				left 0
+				width 100%
+				bottom 0
 		.basic-information
 			flex-grow 1
 			line-height 24px

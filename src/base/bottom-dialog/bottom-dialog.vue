@@ -1,5 +1,5 @@
 <template>
-  <div v-show="show" class="bottom-dialog-wrapper" @touchend="handleClose">
+  <div v-show="show" class="bottom-dialog-wrapper" @touchend.self="handleClose">
       <div class="content-wrapper">
           <slot></slot>
       </div>
@@ -17,9 +17,7 @@
 		},
 		methods: {
 			handleClose(e) {
-				if (e.target === this.$el) {
-					this.$emit('closeBottom')
-				}
+				this.$emit('closeBottom')
 			}
 		}
 	}

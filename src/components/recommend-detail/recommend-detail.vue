@@ -22,9 +22,10 @@
         <div class="job-list" v-for="i in 10" :key="i">
           <label>
             <div class="check-box">
-            <span :class="[checkJobArr.indexOf(i)>-1 ? 'icon-xuanzhong' : 'icon-danxuan']"></span>
-            <input type="checkbox" :value="i" name="" id="" v-model="checkJobArr">
-          </div>
+              <span :class="[checkJob === i ? 'icon-danxuan-xuanzhong' : 'icon-danxuan']"></span>
+              <!-- <input type="checkbox" :value="i" name="" id="" v-model="checkJobArr"> -->
+              <input type="radio" name="job" id="" v-model="checkJob" :value="i">
+            </div>
           </label>
           <div class="job-infos">
             <div class="job-name">
@@ -50,7 +51,7 @@ export default {
   data() {
     return {
       online: true,
-      checkJobArr: []
+      checkJob: ''
     };
   },
   methods: {
@@ -126,6 +127,8 @@ export default {
     width 100%
     height 127px
     display flex
+    label 
+      height 100%
     .check-box
       width 45px
       display flex
@@ -137,7 +140,7 @@ export default {
       .icon-danxuan
         l-font(30px)
         color #BEBEBE
-      .icon-xuanzhong
+      .icon-danxuan-xuanzhong
         l-font(30px)
         color #17AE19
     .job-infos
@@ -161,8 +164,11 @@ export default {
           l-border(1px solid #7ed321)
           border-radius 2px
           margin-left 8px
+          display block
+          display flex
+          height 18px
+          align-items center
           padding 0 3px
-          line-height 16px
         .salary
           flex-grow 1
           l-font(28px)

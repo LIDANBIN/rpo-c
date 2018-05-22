@@ -1,6 +1,6 @@
 <template>
   <div class="load-more-wrapper"
-              @scroll="handleScroll" 
+              @scroll.passive="handleScroll" 
   >
         <div
             class="load-more-inner"
@@ -22,12 +22,12 @@
                 
                 </slot>
                 <!-- 上拉加载 页面滚动到底部并且手指向上滑动-->
-                <footer class="footer tips center" ref="footerTip">
+                <!-- <footer class="footer tips center" ref="footerTip">
                     <slot name="load-more">
-                        <div>加载更多……</div>
+                        <div>加载更多……</div> -->
                         <!-- <div>暂无更多。</div> -->
-                    </slot>
-                </footer>
+                    <!-- </slot>
+                </footer> -->
             </section>
             
         </div>
