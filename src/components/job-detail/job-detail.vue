@@ -36,28 +36,37 @@
         4、1年以上工作经验，有商业产品工作经验优。<br>
     
     </div>
+    <apply-job :isJob="true" :show="show" @cancelDialog="cancelDialog"></apply-job>
   </div>
 </template>
 
 <script>
 import myMenus from "@/my-menus/my-menus";
 import topBar from "@/top-bar/top-bar";
+import applyJob from "@/apply-job/apply-job"
+
 export default {
   name: "job-detail",
   data() {
     return {
       online: true,
-      checkJobArr: []
+      checkJobArr: [],
+      jobId: 1111109,
+      show: false
     };
   },
   methods: {
     handleEnd() {
       this.$router.go(-1);
+    },
+    cancelDialog(data) {
+      this.show = data
     }
   },
   components: {
     myMenus,
-    topBar
+    topBar,
+    applyJob
   }
 };
 </script>

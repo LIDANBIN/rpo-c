@@ -40,12 +40,15 @@
           </div>
         </div>
       </div>
+      <apply-job :show="!!checkJob" @cancelDialog="cancelDialog"></apply-job>
   </div>
 </template>
 
 <script>
 import myMenus from "@/my-menus/my-menus"
 import topBar from "@/top-bar/top-bar";
+import applyJob from "@/apply-job/apply-job"
+
 export default {
   name: "recommend-detail",
   data() {
@@ -54,14 +57,20 @@ export default {
       checkJob: ''
     };
   },
+  computed: {
+  },
   methods: {
     handleEnd() {
       this.$router.go(-1);
+    },
+    cancelDialog() {
+      this.checkJob = ''
     }
   },
   components: {
     myMenus,
-    topBar
+    topBar,
+    applyJob
   }
 };
 </script>
@@ -70,7 +79,7 @@ export default {
 @import '~&/style/variable.styl';
 @import '~&/style/mixin.styl';
 .recommend-detail-wrapper
-  padding 44px 0 15px
+  padding 44px 0 44px
   min-height 100vh
   .icon-fanhui
     l-font(42px)
@@ -199,5 +208,23 @@ export default {
           right 0
           top 50%
           transform translateY(-50%)
-
+  .bottom
+    l-font(24px)
+    color $color-text-d
+    &.bottom-selectJob
+      padding 0 15px
+    &.bottom-collect
+      .icon
+        l-font(24px)
+        margin 0 3px
+        &.icon-love-b
+          color #D81E06
+    &.bottom-apply
+      width 110px
+      height 44px
+      outline none
+      border none
+      color $color-text-t
+      background radial-gradient(#FEDA02, #FEDB02) 
+      border-radius 0
 </style>

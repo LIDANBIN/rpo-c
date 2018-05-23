@@ -55,7 +55,7 @@
 					</ul>
 				</div>
 			</div>
-			<bottom-dialog :show="showEdit" @closeBottom="closeBottom">
+			<bottom-dialog :show="showEdit" @cancelDialog="cancelDialog">
 				<ul class="user-info-from">
 					<li class="item">姓名<span class="red">*</span> <input type="text"></li>
 					<li class="item">手机<span class="red">*</span> <input type="text"></li>
@@ -111,7 +111,7 @@ export default {
 		handleEdit() {
 			this.showEdit = true
 		},
-		closeBottom() {
+		cancelDialog() {
 			this.showEdit = false
 		}
   },

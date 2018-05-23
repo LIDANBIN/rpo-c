@@ -1,6 +1,6 @@
 <template>
   <div v-show="show" class="bottom-dialog-wrapper" @touchend.self="handleClose">
-      <div class="content-wrapper">
+      <div class="content-wrapper" :style="{bottom: bottom}">
           <slot></slot>
       </div>
   </div>
@@ -13,11 +13,15 @@
 			show: {
 				type: Boolean,
 				default: false
+			},
+			bottom: {
+				type: Number,
+				default: 0
 			}
 		},
 		methods: {
 			handleClose(e) {
-				this.$emit('closeBottom')
+				this.$emit('cancelDialog')
 			}
 		}
 	}
