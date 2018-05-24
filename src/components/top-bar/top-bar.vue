@@ -38,4 +38,5 @@ export default {
     justify-content space-between
     .item
         line-height 44px
+        
 </style>

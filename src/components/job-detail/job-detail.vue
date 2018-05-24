@@ -3,7 +3,7 @@
     <top-bar :backgroundColor="'#FFDB01'">
         <div slot="left" class="icon-fanhui center" @touchend="handleEnd"></div>
         <div class="center-title">职位详情</div>
-        <my-menus slot="right"></my-menus>
+        <my-menus :backgroundColor="'#FFDB01'" slot="right"></my-menus>
     </top-bar>
     <div class="job-wrapper">
         <div class="job-name">
@@ -15,7 +15,7 @@
             {{'深圳'}}<span class="line">|</span>{{3}}到{{5}}年<span class="line">|</span>{{'本科'}}
         </div>
         <div class="company"><router-link to="/company/detail">{{'广州唯品会电子商务有限公司'}}</router-link><span class="icon-enter"></span></div>
-        <div class="position"><span class="icon-didian"></span>{{'深圳市生态科技园9栋B3座'}}<span class="icon-enter"></span></div>
+        <div class="position"><router-link to="/map"><span class="icon-didian"></span>{{'深圳市生态科技园9栋B3座'}}<span class="icon-enter"></span></router-link></div>
     </div>
     <h3 class="job-title center">职位描述</h3>
     <div class="job-describle">
@@ -131,7 +131,6 @@ export default {
             color $color-text-d
             position relative
             a
-                margin-left 20px
                 color $color-text-d
             .icon-didian
                 color #FFD946

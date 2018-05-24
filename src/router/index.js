@@ -38,6 +38,10 @@ export default new Router({
     {
       path: '/company/detail',
       component: resolve => require(['@/company-detail/company-detail'], resolve)
+    },
+    {
+      path: '/map',
+      component: resolve => require(['@/my-map/my-map'], resolve)
     }
   ]
 })

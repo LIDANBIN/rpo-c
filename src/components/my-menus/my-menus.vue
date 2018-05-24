@@ -1,5 +1,5 @@
 <template>
-  <div class="icon-more center">
+  <div class="icon-more center" :style="{backgroundColor: backgroundColor, color: color}">
       <ul class="menus-wrapper">
           <li class="menu"><router-link to="/recommend">职位内推</router-link></li>
           <li class="menu"><router-link to="/observer">职场观察</router-link></li>
@@ -9,7 +9,17 @@
 </template>
 <script>
 export default {
-  name: "my-menus"
+  name: "my-menus",
+  props: {
+    backgroundColor: {
+      type: String,
+      default: ""
+    },
+    color: {
+      type: String,
+      default: ''
+    }
+  }
 };
 </script>
 
