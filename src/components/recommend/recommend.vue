@@ -3,9 +3,11 @@
     <top-bar>
       <my-menus slot="right"></my-menus>
     </top-bar>
-    <my-header :type="'recommend'"></my-header>
     <load-more :requireRefresh="true" :on-infinite="onInfinite" :on-refresh="onRefresh">
+        <loading slot="pull-refresh" :mode="'circular-lines'" :number="4"></loading>
+        <my-header :type="'recommend'"></my-header>
         <recommend-list v-for="(i,index) in recommendLists" :key="index"></recommend-list>
+        <loading slot="load-more" :mode="'pinstripe'"></loading>
     </load-more>
   </div>
 </template>
@@ -14,7 +16,7 @@
 import myHeader from "@/my-header/my-header";
 import topBar from "@/top-bar/top-bar";
 import myMenus from "@/my-menus/my-menus";
-
+import Loading from "base/loading/loading"
 import loadMore from "base/load-more/load-more";
 import recommendList from "@/recommend-list/recommend-list";
 export default {
@@ -45,7 +47,8 @@ export default {
     recommendList,
     myHeader,
     topBar,
-    myMenus
+    myMenus,
+    Loading
   }
 };
 </script>
@@ -56,7 +59,5 @@ export default {
 
 .recommend-wrapper
   height 100vh
-  display flex
-  flex-direction column
 
 </style>

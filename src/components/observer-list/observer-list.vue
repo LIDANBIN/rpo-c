@@ -26,7 +26,7 @@ export default {
 .observer-list-wrapper
   height 110px
   background $color-background-d
-  margin 13px 0
+  margin-top 13px
   display flex
   position relative
   justify-content center

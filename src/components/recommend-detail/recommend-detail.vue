@@ -36,7 +36,7 @@
             <div class="info">
               {{'深圳'}}<span class="line">|</span>{{3}}-{{5}}年<span class="line">|</span>{{'本科'}}
             </div>
-            <div class="company"><router-link to="/company/detail">{{'广州唯品会电子商务有限公司'}}</router-link><span class="icon-enter"></span></div>
+            <router-link to="/company/detail"><div class="company">{{'广州唯品会电子商务有限公司'}}<span class="icon-enter"></span></div></router-link>
           </div>
         </div>
       </div>
@@ -142,10 +142,18 @@ export default {
       width 45px
       display flex
       height 100%
+      position relative
       justify-content center 
       align-items center
       input
-        display none
+        opacity 0
+        position absolute
+        top 0
+        left 0
+        height 100%
+        width 100%
+        right 0
+        bottom 0
       .icon-danxuan
         l-font(30px)
         color #BEBEBE
@@ -199,8 +207,6 @@ export default {
         no-wrap()
         color $color-text-d
         position relative
-        a
-          color $color-text-d
         .icon-enter
           l-font(36px)
           color $color-text-d

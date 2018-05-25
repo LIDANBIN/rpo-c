@@ -33,7 +33,7 @@ export default {
 .recommend-list-wrapper
   height 106px
   background $color-background-d
-  margin 13px 0
+  margin-top 13px
   padding 14px 14px 14px 16px
   .title-wrapper
     display flex

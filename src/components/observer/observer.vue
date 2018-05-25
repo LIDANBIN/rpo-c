@@ -3,9 +3,11 @@
     <top-bar>
       <my-menus slot="right"></my-menus>
     </top-bar>
-    <load-more :on-infinite="onInfinite" :on-refresh="onRefresh">
+    <load-more :requireRefresh="true" :on-infinite="onInfinite" :on-refresh="onRefresh">
+        <loading slot="pull-refresh" :mode="'circular-lines'" :number="4"></loading>
         <my-header :type="'observer'"></my-header>
         <observer-list v-for="(i,index) in observerLists" :key="index"></observer-list>
+        <loading slot="load-more" :mode="'pinstripe'"></loading>
     </load-more>
   </div>
 </template>
@@ -16,6 +18,7 @@ import loadMore from "base/load-more/load-more";
 import observerList from "@/observer-list/observer-list";
 import topBar from "@/top-bar/top-bar";
 import myMenus from "@/my-menus/my-menus";
+import Loading from "base/loading/loading"
 
 export default {
   name: "observer",
@@ -29,7 +32,7 @@ export default {
       window.setTimeout(() => {
         // 刷新数据
         // console.log(111, this)
-        this.observerLists.push(1);
+        this.observerLists =  this.observerLists.concat([1, 2, 3, 4, 5, 6, 7, 8]);
         done();
       }, 2000);
     },
@@ -45,7 +48,8 @@ export default {
     observerList,
     myHeader,
     topBar,
-    myMenus
+    myMenus,
+    Loading
   }
 };
 </script>

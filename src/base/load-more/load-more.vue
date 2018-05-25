@@ -10,11 +10,13 @@
             @touchend="handleEnd"
         >
             <!-- 下拉刷新 页面滚动到顶部并且手指向下滑动-->
-            <header v-if="requireRefresh" class="header tips center" :class="[refreshing?'refreshing':'']" ref="headerTip">
-                <slot name="pull-refresh">
-                    <div v-show="!refreshing">松开加载。</div>
-                    <div v-show="refreshing">加载中……</div>
-                </slot>
+            <header v-if="requireRefresh" class="header tips center" :class="[refreshState === 1?'refreshing':'']" ref="headerTip">
+                <div v-show="refreshState === 1">
+                  <slot name="pull-refresh">
+                    <div>刷新中……</div>
+                  </slot>
+                </div>
+                <div ref="pullTip" v-show="refreshState !== 1">松开刷新。</div>
             </header>
             <!-- 信息列表 -->
             <section class="contents">
@@ -22,12 +24,12 @@
                 
                 </slot>
                 <!-- 上拉加载 页面滚动到底部并且手指向上滑动-->
-                <!-- <footer class="footer tips center" ref="footerTip">
+                <footer v-show="infiniting" class="footer center" ref="footerTip">
                     <slot name="load-more">
-                        <div>加载更多……</div> -->
+                        <div class="tips">加载更多……</div>
                         <!-- <div>暂无更多。</div> -->
-                    <!-- </slot>
-                </footer> -->
+                    </slot>
+                </footer>
             </section>
             
         </div>
@@ -37,23 +39,23 @@
 <script>
 export default {
   props: {
-    requireRefresh: {
+    requireRefresh: { // 是否需要下拉刷新
       type: Boolean,
       default: false
     },
-    onInfinite: {
+    onInfinite: { // 上拉加载回调函数
       type: Function,
       default: undefined,
       require: true
     },
-    onRefresh: {
+    onRefresh: { // 下拉刷新回调
       type: Function,
       default: undefined,
       require: true
     },
-    maxPullDis: {
+    maxPullDis: { // 下拉触发刷新回调所需的距离
       type: Number,
-      default: 200,
+      default: 150,
       require: false
     }
   },
@@ -61,50 +63,68 @@ export default {
     return {
       touchInfos: {},
       loading: false,
-      refreshing: false
+      infiniting: false,
+      isMoving: false, // 是否处于下拉状态
+      refreshState: 0 // 0 未刷新 1 正在刷新 2 刷新成功
     };
   },
   methods: {
     handleStart(e) {
+      this.isMoving = false;
       if (!this.requireRefresh) {
         return;
       }
-      this.touchInfos.startY = e.touches[0].pageY;
+      let pullTip = this.$refs.pullTip
+      pullTip.innerText = '下拉刷新更多'
+      this.touchInfos.startY = e.touches[0].pageY || 0;
       this.touchInfos.startScroll = this.$el.scrollTop || 0;
     },
     handleMove(e) {
-      if (this.$el.scrollTop > 0 || !this.requireRefresh) {
+      this.touchInfos.nowY = e.targetTouches[0].pageY
+      this.touchInfos.disY = this.touchInfos.nowY  - this.touchInfos.startY;
+      if (this.$el.scrollTop > 0 || !this.requireRefresh || this.touchInfos.disY <= 0) {
         return;
       }
-      let disY =
-        (this.touchInfos.nowY = e.targetTouches[0].pageY) -
-        this.touchInfos.startY;
-      let diff = (this.touchInfos.diff = disY - this.touchInfos.startScroll);
-      if (diff > 0) e.preventDefault();
-      this.$refs.wrapper.style.transform = `translateY(${diff}px)`;
+      e.preventDefault();
+      this.refreshState = 0;
+      // this.touchInfos.diff = this.touchInfos.disY - this.touchInfos.startScroll;
+
+      if (this.touchInfos.disY >= 0) {
+        this.isMoving = true;
+        this.$refs.wrapper.style.transform = `translateY(${this.touchInfos.disY}px)`;
+      }
+      if (this.touchInfos.disY >= this.maxPullDis) {
+        let pullTip = this.$refs.pullTip
+        pullTip.innerText = '松开刷新'
+      }
     },
     handleEnd() {
-      if (!this.requireRefresh) {
+      if (!this.requireRefresh || !this.isMoving) {
         return;
       }
-      if (this.touchInfos.diff >= this.maxPullDis) {
-        this.refreshing = true;
+      if (this.touchInfos.disY >= this.maxPullDis) {
+        this.refreshState = 1;
         this.onRefresh(this.refreshDone);
+        this.$refs.wrapper.style.transform = `translateY(50px)`;
       }
-      this.$refs.wrapper.style.transform = `translateY(0px)`;
+      this.isMoving = false;
     },
     refreshDone() {
-      this.refreshing = false;
+      this.refreshState = 2;
+      let pullTip = this.$refs.pullTip
+      pullTip.innerText = '刷新完毕'
+      this.$refs.wrapper.style.transform = '';
     },
     handleScroll() {
       if (this.infiniting) {
         return;
       }
       clearTimeout(this.timer);
-      let scrollY = this.$el.scrollTop;
-      let clientHeight = this.$el.clientHeight;
-      let scrollHeight = this.$el.scrollHeight;
+      
       this.timer = setTimeout(() => {
+        let scrollY = this.$el.scrollTop;
+        let clientHeight = this.$el.clientHeight;
+        let scrollHeight = this.$el.scrollHeight;
         if (clientHeight + scrollY >= scrollHeight) {
           this.infiniting = true;
           this.onInfinite(this.infiniteDone);
@@ -121,34 +141,22 @@ export default {
 <style scoped lang="stylus" rel="stylesheet/stylus">
 @import '~&/style/variable.styl';
 @import '~&/style/mixin.styl';
-
-.load-more-wrapper {
-  height: 100%;
-  overflow: auto;
-
-  .load-more-inner {
-    -webkit-overflow-scrolling: touch;
-    transition: transform 0.3s cubic-bezier(0.33, 1.12, 0.34, 1.11);
-
-    .contents {
-      overflow: hidden;
-    }
-
-    .tips {
-      height: 50px;
-      width: 100%;
-      line-height: 50px;
-      l-font(24px);
-
-      &.header {
-        margin-top: -50px;
-        transition: all 0.2s;
-
-        &.refreshing {
-          margin-top: 0;
-        }
-      }
-    }
-  }
-}
+.load-more-wrapper
+  height 100%
+  overflow auto
+  -webkit-overflow-scrolling touch
+  .load-more-inner
+    transition transform 0.3s cubic-bezier(0.33, 1.12, 0.34, 1.11)
+    .contents
+      overflow hidden
+    .tips
+      height 50px
+      width 100%
+      line-height 50px
+      l-font(24px)
+      &.header
+        margin-top -50px
+        transition all 0.2s
+        &.refreshing
+          margin-top 0
 </style>

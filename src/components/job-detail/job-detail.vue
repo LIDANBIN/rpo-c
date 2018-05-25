@@ -12,10 +12,10 @@
             <span class="salary">{{10}}k-{{15}}k</span>
         </div>
         <div class="info">
-            {{'深圳'}}<span class="line">|</span>{{3}}到{{5}}年<span class="line">|</span>{{'本科'}}
+            {{'深圳'}}<span class="line">|</span>{{3}}-{{5}}年<span class="line">|</span>{{'本科'}}
         </div>
-        <div class="company"><router-link to="/company/detail">{{'广州唯品会电子商务有限公司'}}</router-link><span class="icon-enter"></span></div>
-        <div class="position"><router-link to="/map"><span class="icon-didian"></span>{{'深圳市生态科技园9栋B3座'}}<span class="icon-enter"></span></router-link></div>
+        <router-link to="/company/detail"><div class="company">{{'广州唯品会电子商务有限公司'}}<span class="icon-enter"></span></div></router-link>
+        <router-link to="/map"><div class="position"><span class="icon-didian"></span>{{'深圳市生态科技园9栋B3座'}}<span class="icon-enter"></span></div></router-link>
     </div>
     <h3 class="job-title center">职位描述</h3>
     <div class="job-describle">
