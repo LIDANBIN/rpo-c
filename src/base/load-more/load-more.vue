@@ -24,7 +24,7 @@
                 
                 </slot>
                 <!-- 上拉加载 页面滚动到底部并且手指向上滑动-->
-                <footer v-show="infiniting" class="footer center" ref="footerTip">
+                <footer class="footer center" ref="footerTip">
                     <slot name="load-more">
                         <div class="tips">加载更多……</div>
                         <!-- <div>暂无更多。</div> -->
@@ -70,28 +70,34 @@ export default {
   },
   methods: {
     handleStart(e) {
+      clearTimeout(this.timer);
       this.isMoving = false;
       if (!this.requireRefresh) {
         return;
       }
+
+      let rNumber = /\d+\.?\d*/;
+      let numArr = rNumber.exec(this.$refs.wrapper.style.transform);
+      this.touchInfos.translateY = numArr ? numArr[0] : 0;
+
       let pullTip = this.$refs.pullTip
       pullTip.innerText = '下拉刷新更多'
       this.touchInfos.startY = e.touches[0].pageY || 0;
       this.touchInfos.startScroll = this.$el.scrollTop || 0;
     },
     handleMove(e) {
+      clearTimeout(this.timer);
       this.touchInfos.nowY = e.targetTouches[0].pageY
       this.touchInfos.disY = this.touchInfos.nowY  - this.touchInfos.startY;
-      if (this.$el.scrollTop > 0 || !this.requireRefresh || this.touchInfos.disY <= 0) {
+      if (this.$el.scrollTop !== 0 || !this.requireRefresh || this.touchInfos.disY <= 0) {
         return;
       }
-      e.preventDefault();
-      this.refreshState = 0;
-      // this.touchInfos.diff = this.touchInfos.disY - this.touchInfos.startScroll;
-
+      if (this.$el.scrollTop < 0) {
+        e.preventDefault();
+      }
       if (this.touchInfos.disY >= 0) {
         this.isMoving = true;
-        this.$refs.wrapper.style.transform = `translateY(${this.touchInfos.disY}px)`;
+        this.$refs.wrapper.style.transform = `translateY(${+this.touchInfos.translateY + this.touchInfos.disY}px)`;
       }
       if (this.touchInfos.disY >= this.maxPullDis) {
         let pullTip = this.$refs.pullTip
@@ -99,20 +105,25 @@ export default {
       }
     },
     handleEnd() {
+      clearTimeout(this.timer);
       if (!this.requireRefresh || !this.isMoving) {
         return;
       }
       if (this.touchInfos.disY >= this.maxPullDis) {
         this.refreshState = 1;
         this.onRefresh(this.refreshDone);
-        this.$refs.wrapper.style.transform = `translateY(50px)`;
+        let height = this.$refs.headerTip.offsetHeight;
+        this.$refs.wrapper.style.transform = `translateY(${height}px)`;
+      } else {
+        this.$refs.wrapper.style.transform = '';
       }
       this.isMoving = false;
     },
     refreshDone() {
       this.refreshState = 2;
-      let pullTip = this.$refs.pullTip
-      pullTip.innerText = '刷新完毕'
+      let pullTip = this.$refs.pullTip;
+      pullTip.innerText = '刷新完毕';
+      this.touchInfos.disY = 0
       this.$refs.wrapper.style.transform = '';
     },
     handleScroll() {
@@ -146,7 +157,7 @@ export default {
   overflow auto
   -webkit-overflow-scrolling touch
   .load-more-inner
-    transition transform 0.3s cubic-bezier(0.33, 1.12, 0.34, 1.11)
+    transition transform 0.3s linear
     .contents
       overflow hidden
     .tips
@@ -157,6 +168,6 @@ export default {
       &.header
         margin-top -50px
         transition all 0.2s
-        &.refreshing
-          margin-top 0
+        // &.refreshing
+        //   margin-top 0
 </style>

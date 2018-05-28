@@ -3,7 +3,7 @@
     <top-bar>
       <my-menus slot="right"></my-menus>
     </top-bar>
-    <load-more :requireRefresh="true" :on-infinite="onInfinite" :on-refresh="onRefresh">
+    <load-more :on-infinite="onInfinite" :on-refresh="onRefresh">
         <loading slot="pull-refresh" :mode="'circular-lines'" :number="4"></loading>
         <my-header :type="'observer'"></my-header>
         <observer-list v-for="(i,index) in observerLists" :key="index"></observer-list>
@@ -40,7 +40,7 @@ export default {
       window.setTimeout(() => {
         // 刷新数据
         done();
-      }, 2000);
+      }, 10000);
     }
   },
   components: {
