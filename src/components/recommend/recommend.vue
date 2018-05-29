@@ -31,7 +31,7 @@ export default {
       window.setTimeout(() => {
         // 刷新数据
         // console.log(111, this)
-        this.recommendLists.push(1);
+        this.recommendLists =  this.recommendLists.concat([1, 2, 3, 4, 5, 6, 7, 8]);
         done();
       }, 2000);
     },

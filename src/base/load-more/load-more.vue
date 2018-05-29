@@ -10,13 +10,13 @@
             @touchend="handleEnd"
         >
             <!-- 下拉刷新 页面滚动到顶部并且手指向下滑动-->
-            <header v-if="requireRefresh" class="header tips center" :class="[refreshState === 1?'refreshing':'']" ref="headerTip">
-                <div v-show="refreshState === 1">
+            <header v-if="requireRefresh" class="header tips center" ref="headerTip">
+                <div v-show="refreshFlag">
                   <slot name="pull-refresh">
                     <div>刷新中……</div>
                   </slot>
                 </div>
-                <div ref="pullTip" v-show="refreshState !== 1">松开刷新。</div>
+                <div ref="pullTip" v-show="!refreshFlag">松开刷新。</div>
             </header>
             <!-- 信息列表 -->
             <section class="contents">
@@ -39,103 +39,127 @@
 <script>
 export default {
   props: {
-    requireRefresh: { // 是否需要下拉刷新
+    requireRefresh: {
+      // 是否需要下拉刷新
       type: Boolean,
       default: false
     },
-    onInfinite: { // 上拉加载回调函数
+    onInfinite: {
+      // 上拉加载回调函数
       type: Function,
       default: undefined,
       require: true
     },
-    onRefresh: { // 下拉刷新回调
+    onRefresh: {
+      // 下拉刷新回调
       type: Function,
       default: undefined,
       require: true
     },
-    maxPullDis: { // 下拉触发刷新回调所需的距离
+    dragThreshold: {
+      // 临界值
       type: Number,
-      default: 150,
-      require: false
+      default: 0.2
+    },
+    moveCount: {
+      // 位移系数
+      type: Number,
+      default: 1000
     }
   },
   data() {
     return {
-      touchInfos: {},
-      loading: false,
+      rNumber: /\d+\.?\d*/,
+      dragStart: null, // 开始抓取标志位
+      percentage: 0, // 拖动量的百分比
+      joinRefreshFlag: null, // 进入下拉刷新状态标志位 是否处于下拉状态
       infiniting: false,
-      isMoving: false, // 是否处于下拉状态
-      refreshState: 0 // 0 未刷新 1 正在刷新 2 刷新成功
+      refreshFlag: 0 // 0 未刷新 1 正在刷新
     };
   },
   methods: {
     handleStart(e) {
       clearTimeout(this.timer);
-      this.isMoving = false;
-      if (!this.requireRefresh) {
+      if (!this.requireRefresh || this.refreshFlag) {
         return;
       }
-
-      let rNumber = /\d+\.?\d*/;
-      let numArr = rNumber.exec(this.$refs.wrapper.style.transform);
-      this.touchInfos.translateY = numArr ? numArr[0] : 0;
-
-      let pullTip = this.$refs.pullTip
-      pullTip.innerText = '下拉刷新更多'
-      this.touchInfos.startY = e.touches[0].pageY || 0;
-      this.touchInfos.startScroll = this.$el.scrollTop || 0;
+      this.dragStart = e.touches[0].pageY || 0;
+      this.$refs.wrapper.style.transform = 'none';
     },
     handleMove(e) {
       clearTimeout(this.timer);
-      this.touchInfos.nowY = e.targetTouches[0].pageY
-      this.touchInfos.disY = this.touchInfos.nowY  - this.touchInfos.startY;
-      if (this.$el.scrollTop !== 0 || !this.requireRefresh || this.touchInfos.disY <= 0) {
+
+      if (this.dragStart === null || this.refreshFlag) {
         return;
       }
-      if (this.$el.scrollTop < 0) {
-        e.preventDefault();
-      }
-      if (this.touchInfos.disY >= 0) {
-        this.isMoving = true;
-        this.$refs.wrapper.style.transform = `translateY(${+this.touchInfos.translateY + this.touchInfos.disY}px)`;
-      }
-      if (this.touchInfos.disY >= this.maxPullDis) {
-        let pullTip = this.$refs.pullTip
-        pullTip.innerText = '松开刷新'
+      this.percentage = (this.dragStart - e.touches[0].pageY) / window.screen.height;
+      // console.log(this.dragStart,e.touches[0].pageY, window.screen.height)
+      if (this.$el.scrollTop === 0) {
+        if (this.percentage < 0) {
+          e.preventDefault();
+          var translateX = -this.percentage * this.moveCount;
+          this.joinRefreshFlag = true;
+          let pullTip = this.$refs.pullTip;
+          if (Math.abs(this.percentage) > this.dragThreshold) {
+            pullTip.innerText = "松开刷新";
+          } else {
+            pullTip.innerText = "下拉刷新更多";
+          }
+          // console.log(translateX, this.percentage, this.moveCount, this.$el.scrollTop)
+          if (this.percentage > 0) {
+            this.$refs.wrapper.style.transform = "translate3d(0," + translateX + "px,0)";
+          } else {
+            this.$refs.wrapper.style.transform = "translate3d(0," + translateX + "px,0)";
+          }
+        } else {
+          if (this.joinRefreshFlag == null) {
+            this.joinRefreshFlag = false;
+          }
+        }
+      } else {
+        if (this.joinRefreshFlag == null) {
+          this.joinRefreshFlag = false;
+        }
       }
     },
     handleEnd() {
+      let self = this;
       clearTimeout(this.timer);
-      if (!this.requireRefresh || !this.isMoving) {
+      if (this.percentage === 0 || this.refreshFlag) {
         return;
       }
-      if (this.touchInfos.disY >= this.maxPullDis) {
-        this.refreshState = 1;
+      if (Math.abs(this.percentage) > this.dragThreshold && this.joinRefreshFlag) {
+        this.refreshFlag = 1;
         this.onRefresh(this.refreshDone);
         let height = this.$refs.headerTip.offsetHeight;
-        this.$refs.wrapper.style.transform = `translateY(${height}px)`;
+        this.$refs.wrapper.style.transform = "translate3d(0," + height + "px,0)";
       } else {
-        this.$refs.wrapper.style.transform = '';
+        if (this.joinRefreshFlag) {
+          this.$refs.wrapper.style.transform = 'translate3d(0,0,0)';
+        }
       }
-      this.isMoving = false;
+      // 重置joinRefreshFlag
+      this.joinRefreshFlag = null;
+      // 重置dragStart
+      this.dragStart = null;
+      // 重置percentage
+      this.percentage = 0;
     },
     refreshDone() {
-      this.refreshState = 2;
+      this.refreshFlag = 0;
       let pullTip = this.$refs.pullTip;
-      pullTip.innerText = '刷新完毕';
-      this.touchInfos.disY = 0
-      this.$refs.wrapper.style.transform = '';
+      pullTip.innerText = "刷新完毕";
+      this.$refs.wrapper.style.transform = "translate3d(0, 0, 0)";
     },
     handleScroll() {
       if (this.infiniting) {
         return;
       }
+      let scrollY = this.$el.scrollTop;
+      let clientHeight = this.$el.clientHeight;
+      let scrollHeight = this.$el.scrollHeight;
       clearTimeout(this.timer);
-      
       this.timer = setTimeout(() => {
-        let scrollY = this.$el.scrollTop;
-        let clientHeight = this.$el.clientHeight;
-        let scrollHeight = this.$el.scrollHeight;
         if (clientHeight + scrollY >= scrollHeight) {
           this.infiniting = true;
           this.onInfinite(this.infiniteDone);
@@ -152,12 +176,14 @@ export default {
 <style scoped lang="stylus" rel="stylesheet/stylus">
 @import '~&/style/variable.styl';
 @import '~&/style/mixin.styl';
+
 .load-more-wrapper
   height 100%
   overflow auto
   -webkit-overflow-scrolling touch
   .load-more-inner
     transition transform 0.3s linear
+    transform-style preserve-3d
     .contents
       overflow hidden
     .tips
@@ -167,7 +193,4 @@ export default {
       l-font(24px)
       &.header
         margin-top -50px
-        transition all 0.2s
-        // &.refreshing
-        //   margin-top 0
 </style>
