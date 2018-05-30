@@ -23,7 +23,7 @@ export default {
   name: "recommend",
   data() {
     return {
-      recommendLists: [1, 2, 3, 4, 5]
+      recommendLists: [1, 2, 3, 4]
     };
   },
   methods: {
@@ -31,8 +31,11 @@ export default {
       window.setTimeout(() => {
         // 刷新数据
         // console.log(111, this)
-        this.recommendLists =  this.recommendLists.concat([1, 2, 3, 4, 5, 6, 7, 8]);
-        done();
+        let isDone = this.recommendLists.length > 40;
+        if (!isDone) {
+          this.recommendLists =  this.recommendLists.concat([1, 2, 3, 4, 5, 6, 7, 8]);
+        }
+        done(isDone);
       }, 2000);
     },
     onRefresh(done) {
