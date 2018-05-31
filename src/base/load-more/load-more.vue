@@ -1,14 +1,11 @@
 <template>
   <div class="load-more-wrapper"
               @scroll.passive="handleScroll" 
+              @touchstart="handleStart"
+              @touchmove="handleMove"
+              @touchend="handleEnd"
   >
-        <div
-            class="load-more-inner"
-            ref="wrapper"
-            @touchstart="handleStart"
-            @touchmove="handleMove"
-            @touchend="handleEnd"
-        >
+        <div class="load-more-inner" ref="wrapper">
             <!-- 下拉刷新 页面滚动到顶部并且手指向下滑动-->
             <header v-if="requireRefresh" class="header tips center" ref="headerTip">
                 <div v-show="refreshFlag">
@@ -28,8 +25,6 @@
                     <div v-show="isDone">暂无更多......</div>
                     <div v-show="!isDone">
                       <slot name="load-more">
-                        <!-- <div class="tips">加载更多……</div>
-                        <div>暂无更多。</div> -->
                         <div>加载更多......</div>
                     </slot>
                     </div>
@@ -47,6 +42,10 @@ export default {
       // 是否需要下拉刷新
       type: Boolean,
       default: false
+    },
+    scrollCallback: {
+      type: Function,
+      default: undefined
     },
     onInfinite: {
       // 上拉加载回调函数
@@ -95,13 +94,12 @@ export default {
       this.$refs.wrapper.style.transition = '';
     },
     handleMove(e) {
+      this.scrollCallback && this.scrollCallback(this.$el)
       clearTimeout(this.timer);
       if (this.dragStart === null || this.refreshFlag) {
         return;
       }
       this.percentage = this.dragStart - e.touches[0].pageY
-      // this.percentage = (this.dragStart - e.touches[0].pageY) / window.screen.height;
-      // console.log(this.dragStart,e.touches[0].pageY, this.$el.scrollTop)
       if (this.$el.scrollTop === 0) {
         if (this.percentage < 0) {
           e.preventDefault();
@@ -113,7 +111,6 @@ export default {
           } else {
             pullTip.innerText = "下拉刷新更多";
           }
-          // console.log(translateX, this.percentage, this.moveCount, this.$el.scrollTop)
           if (this.percentage > 0) {
             this.$refs.wrapper.style.transform = `translateY(${translateX}px)`
           } else {
@@ -132,7 +129,6 @@ export default {
     },
     handleEnd() {
       let self = this;
-      // clearTimeout(this.timer);
       if (this.percentage === 0 || this.refreshFlag) {
         return;
       }
@@ -171,6 +167,7 @@ export default {
     handleScroll() {
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
+        this.scrollCallback && this.scrollCallback(this.$el)
         this.execInfinite();
       }, 50);
     },

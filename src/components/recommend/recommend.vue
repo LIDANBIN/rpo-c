@@ -1,13 +1,13 @@
 <template>
   <div class="recommend-wrapper">
-    <top-bar>
-      <my-menus slot="right"></my-menus>
-    </top-bar>
-    <load-more :requireRefresh="true" :on-infinite="onInfinite" :on-refresh="onRefresh">
-        <loading slot="pull-refresh" :mode="'circular-lines'" :number="4"></loading>
-        <my-header :type="'recommend'"></my-header>
-        <recommend-list v-for="(i,index) in recommendLists" :key="index"></recommend-list>
-        <loading slot="load-more" :mode="'pinstripe'"></loading>
+    <load-more :scroll-callback="scrollCallback" :requireRefresh="true" :on-infinite="onInfinite" :on-refresh="onRefresh">
+      <top-bar>
+        <my-menus slot="right"></my-menus>
+      </top-bar>
+      <loading slot="pull-refresh" :mode="'circular-lines'" :number="4"></loading>
+      <my-header :scrollTop="scrollTop" :type="'recommend'"></my-header>
+      <recommend-list v-for="(i,index) in recommendLists" :key="index"></recommend-list>
+      <loading slot="load-more" :mode="'pinstripe'"></loading>
     </load-more>
   </div>
 </template>
@@ -23,10 +23,14 @@ export default {
   name: "recommend",
   data() {
     return {
-      recommendLists: [1, 2, 3, 4]
+      recommendLists: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+      scrollTop: ''
     };
   },
   methods: {
+    scrollCallback(target) {
+      this.scrollTop = target.scrollTop;
+    },
     onInfinite(done) {
       window.setTimeout(() => {
         // 刷新数据

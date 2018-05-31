@@ -1,8 +1,8 @@
 <template>
   <header class="header-wrapper">
-    <div class="title-wrapper" :class="[type]">
+    <div class="title-wrapper" :class="[type]" ref="title">
     </div>
-    <div class="tab-wrapper">
+    <div class="tab-wrapper" ref="tab">
       <router-link class="tab center bold" to="/observer"><span>职场观察</span></router-link>
       <router-link class="tab center bold" to="/recommend"><span>职场内推</span></router-link>
     </div>
@@ -12,7 +12,18 @@
 <script>
 export default {
   name: "my-header",
-  props: ["type"]
+  props: ["type", "scrollTop"],
+  watch: {
+    scrollTop(val) {
+      console.log(val)
+      let titleH = this.$refs.title.offsetHeight;
+      if (val >= titleH) {
+        this.$refs.tab.classList.add('fix')
+      } else {
+        this.$refs.tab.classList.remove('fix')
+      }
+    }
+  }
 };
 </script>
 
@@ -32,9 +43,17 @@ export default {
       bg-image('recommend')
   .tab-wrapper
     display flex
+    background $color-background-d
+    &.fix
+      position fixed
+      top 0
+      left 0
+      right 0
+      z-index 109
+      background rgba(255, 255, 255, .95)
+      box-shadow 0 0 5px 0 #ccc
     .tab
       flex 1
-      background $color-background-d
       line-height 44px
       position relative
       l-font(28px)
