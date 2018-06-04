@@ -1,8 +1,11 @@
 <template>
   <div class="apply-job-wrapper">
+		<transition name="mask-slide">
 			<div class="apply-job-mask" v-show="show" @touchend.self="handleClose"></div>
-      <div class="content-wrapper" :style="{bottom: bottom}">
-          <div class="resume-wrapper" v-show="show">
+		</transition>
+		<div class="content-wrapper" :style="{bottom: bottom}">
+				<transition name="content-slide">
+					<div ref="resumeWrapper" class="resume-wrapper" v-show="show">
 						<div class="logo-wrapper" :class="[resumeState ? (resumeState === 1 ? 'already-post' : 'post-success') : 'post-please']"></div>
 						<label @touchstart.stop v-show="resumeState == 0">
 							<div class="center tips">您还没有简历，请<span class="blue">上传</span>您的简历</div>
@@ -18,13 +21,14 @@
 							<div class="center tips">招聘顾问将在24小时内与您联系</div>
 						</div>
 					</div>
-					<div class="btns-wrapper" v-show="resumeState !== 2">
-						<div class="selected-job" v-if="!isJob">已选</div>
-						<div class="job-collect" @click="handleCollect">收藏<span class="icon" :class="[isCollected ? 'icon-love-b' : 'icon-love-b1']"></span></div>
-						<input v-if="isJob && !show" @click="handleJobId" type="button" class="apply-button" value="申请内推">
-						<input v-show="show" :class="{disable: resumeState == 0}" :disabled="resumeState == 0" @click="handleApply" type="button" class="apply-button" value="申请内推">
-					</div>
-      </div>
+				</transition>
+				<div class="btns-wrapper" v-show="resumeState !== 2">
+					<div class="selected-job" v-if="!isJob">已选</div>
+					<div class="job-collect" @click="handleCollect">收藏<span class="icon" :class="[isCollected ? 'icon-love-b' : 'icon-love-b1']"></span></div>
+					<input v-if="isJob && !show" @click="handleJobId" type="button" class="apply-button" value="申请内推">
+					<input v-show="show" :class="{disable: resumeState == 0}" :disabled="resumeState == 0" @click="handleApply" type="button" class="apply-button" value="申请内推">
+				</div>
+		</div>
   </div>
 </template>
 
@@ -73,7 +77,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-@import '~&/style/variable.styl';
+@import '~&/style/variable.styl'; 
 @import '~&/style/mixin.styl';
 
 .apply-job-wrapper
@@ -85,6 +89,10 @@
 		right 0
 		bottom 0
 		background rgba(51,51,51,0.6)
+		&.mask-slide-enter-active, &.mask-slide-leave-active
+			transition all .8s
+		&.mask-slide-enter, &.mask-slide-leave-active
+			opacity 0
 	.content-wrapper
 		width 100%
 		position fixed
@@ -93,6 +101,11 @@
 		background $color-background-d
 		.resume-wrapper
 			padding-bottom 30px
+			&.content-slide-enter-active, &.content-slide-leave-active
+				transition opacity .8s, transform .8s
+			&.content-slide-enter, &.content-slide-leave-active
+				transform translateY(10%)
+				opacity 0
 			.logo-wrapper
 				height 148px
 				background-position center

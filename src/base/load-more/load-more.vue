@@ -85,10 +85,10 @@ export default {
   methods: {
     handleStart(e) {
       clearTimeout(this.timer);
+      this.dragStart = e.touches[0].pageY || 0;
       if (!this.requireRefresh || this.refreshFlag) {
         return;
       }
-      this.dragStart = e.touches[0].pageY || 0;
       this.scrollTop = this.$el.scrollTop || 0;
       this.$refs.wrapper.style.transform = '';
       this.$refs.wrapper.style.transition = '';
@@ -96,10 +96,10 @@ export default {
     handleMove(e) {
       this.scrollCallback && this.scrollCallback(this.$el)
       clearTimeout(this.timer);
-      if (this.dragStart === null || this.refreshFlag) {
+      this.percentage = this.dragStart - e.touches[0].pageY
+      if (!this.requireRefresh || this.dragStart === null || this.refreshFlag) {
         return;
       }
-      this.percentage = this.dragStart - e.touches[0].pageY
       if (this.$el.scrollTop === 0) {
         if (this.percentage < 0) {
           e.preventDefault();

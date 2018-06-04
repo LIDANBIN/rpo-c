@@ -15,12 +15,13 @@ export default {
   props: ["type", "scrollTop"],
   watch: {
     scrollTop(val) {
-      console.log(val)
       let titleH = this.$refs.title.offsetHeight;
       if (val >= titleH) {
         this.$refs.tab.classList.add('fix')
+        this.$refs.tab.classList.add('fixed-animated')
       } else {
         this.$refs.tab.classList.remove('fix')
+        this.$refs.tab.classList.remove('fixed-animated')
       }
     }
   }
@@ -50,8 +51,14 @@ export default {
       left 0
       right 0
       z-index 109
-      background rgba(255, 255, 255, .95)
       box-shadow 0 0 5px 0 #ccc
+      &.fixed-animated
+        -moz-animation fixedHeader .3s linear
+        -webkit-animation fixedHeader .3s linear
+        animation fixedHeader .3s linear
+        -moz-transform-origin center top
+        -webkit-transform-origin center top
+        transform-origin center top
     .tab
       flex 1
       line-height 44px
@@ -75,4 +82,18 @@ export default {
           padding 0 10px
           color $color-text
           display inline-block
+@-webkit-keyframes fixedHeader 
+  0%
+    opacity 0
+    // -webkit-transform rotateX(100deg)
+  100%
+    opacity 1
+    // -webkit-transform rotateX(0)
+@keyframes fixedHeader
+  0%
+    opacity 0
+    // transform rotateX(100deg)
+  100%
+    opacity 1
+    // transform rotateX(0)
 </style>
