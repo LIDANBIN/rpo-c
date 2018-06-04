@@ -5,12 +5,6 @@ import router from './router'
 import FastClick from 'fastclick'
 
 FastClick.attach(document.body);
-// FastClick.prototype.onTouchEnd = function (event) {
-//   console.log(111)
-//   if (event.target.className.indexOf('file') > -1) {
-//     return false
-//   }
-// }
 
   import 'cropperjs/dist/cropper.css'
 
