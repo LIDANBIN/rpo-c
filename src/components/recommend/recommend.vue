@@ -1,6 +1,6 @@
 <template>
   <div class="recommend-wrapper">
-    <load-more :scroll-callback="scrollCallback" :requireRefresh="true" :on-infinite="onInfinite" :on-refresh="onRefresh">
+    <load-more ref="loadMore" :scroll-callback="scrollCallback" :requireRefresh="true" :on-infinite="onInfinite" :on-refresh="onRefresh">
       <top-bar>
         <my-menus slot="right"></my-menus>
       </top-bar>
@@ -16,7 +16,7 @@
 import myHeader from "@/my-header/my-header";
 import topBar from "@/top-bar/top-bar";
 import myMenus from "@/my-menus/my-menus";
-import Loading from "base/loading/loading"
+import Loading from "base/loading/loading";
 import loadMore from "base/load-more/load-more";
 import recommendList from "@/recommend-list/recommend-list";
 export default {
@@ -24,8 +24,13 @@ export default {
   data() {
     return {
       recommendLists: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-      scrollTop: ''
+      scrollTop: ""
     };
+  },
+  computed: {
+    elem() {
+      return this.$refs
+    }
   },
   methods: {
     scrollCallback(target) {
@@ -34,10 +39,10 @@ export default {
     onInfinite(done) {
       window.setTimeout(() => {
         // 刷新数据
-        // console.log(111, this)
+        console.log(111, this);
         let isDone = this.recommendLists.length > 40;
         if (!isDone) {
-          this.recommendLists =  this.recommendLists.concat([1, 2, 3, 4, 5, 6, 7, 8]);
+          this.recommendLists = this.recommendLists.concat([1, 2, 3, 4, 5, 6, 7, 8]);
         }
         done(isDone);
       }, 2000);
@@ -66,5 +71,4 @@ export default {
 
 .recommend-wrapper
   height 100vh
-
 </style>

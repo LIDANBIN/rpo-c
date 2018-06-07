@@ -1,6 +1,6 @@
 <template>
   <header class="header-wrapper">
-    <div class="title-wrapper" :class="[type]" ref="title">
+    <div class="title-wrapper" @click="handleClick" :class="[type]" ref="title">
     </div>
     <div class="tab-wrapper" ref="tab">
       <router-link class="tab center bold" to="/observer"><span>职场观察</span></router-link>
@@ -13,6 +13,11 @@
 export default {
   name: "my-header",
   props: ["type", "scrollTop"],
+  methods: {
+    handleClick() {
+      this.toast('hello')
+    }
+  },
   watch: {
     scrollTop(val) {
       let titleH = this.$refs.title.offsetHeight;
