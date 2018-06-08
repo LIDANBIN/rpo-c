@@ -16,8 +16,8 @@
 import myHeader from "@/my-header/my-header";
 import topBar from "@/top-bar/top-bar";
 import myMenus from "@/my-menus/my-menus";
-import Loading from "base/loading/loading";
-import loadMore from "base/load-more/load-more";
+import Loading from "base/loading";
+import loadMore from "base/load-more";
 import recommendList from "@/recommend-list/recommend-list";
 export default {
   name: "recommend",

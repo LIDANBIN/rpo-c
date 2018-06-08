@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import Cropper from "base/cropper/cropper";
+import Cropper from "base/cropper";
 
 export default {
   name: "avatar",

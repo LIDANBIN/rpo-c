@@ -14,11 +14,11 @@
 
 <script>
 import myHeader from "@/my-header/my-header";
-import loadMore from "base/load-more/load-more";
+import loadMore from "base/load-more";
 import observerList from "@/observer-list/observer-list";
 import topBar from "@/top-bar/top-bar";
 import myMenus from "@/my-menus/my-menus";
-import Loading from "base/loading/loading"
+import Loading from "base/loading"
 
 export default {
   name: "observer",

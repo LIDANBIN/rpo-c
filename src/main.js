@@ -29,4 +29,4 @@ new Vue({
 
 
 import Toast from 'base/toast'
-Vue.prototype.toast = Toast
+Vue.prototype.$toast = Toast

@@ -55,7 +55,7 @@
 					</ul>
 				</div>
 			</div>
-			<bottom-dialog :show="showEdit" @cancelDialog="cancelDialog">
+			<popup :show="showEdit" @cancelDialog="cancelDialog">
 				<ul class="user-info-from">
 					<li class="item">姓名<span class="red">*</span> <input type="text"></li>
 					<li class="item">手机<span class="red">*</span> <input type="text"></li>
@@ -68,16 +68,16 @@
 						<input type="button" class="save" value="保存">
 					</li>
 				</ul>
-			</bottom-dialog>
+			</popup>
   </div>
 </template>
 
 <script>
 import myMenus from "@/my-menus/my-menus";
 import topBar from "@/top-bar/top-bar";
-import bottomDialog from "base/bottom-dialog/bottom-dialog"
+import popup from "base/popup"
 export default {
-  name: "recommend-detail",
+  name: "user-center",
   data() {
     return {
 			openResume: false,
@@ -118,7 +118,7 @@ export default {
   components: {
     myMenus,
 		topBar,
-		bottomDialog
+		popup
   }
 };
 </script>

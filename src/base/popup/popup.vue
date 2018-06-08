@@ -8,7 +8,7 @@
 
 <script>
   export default {
-		name: 'bottom-dialog',
+		name: 'popup',
 		props: {
 			show: {
 				type: Boolean,

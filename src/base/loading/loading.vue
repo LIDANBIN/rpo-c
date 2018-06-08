@@ -15,13 +15,7 @@
         type: Number,
         default: 4
       }
-    },
-    data() {
-      return {}
-    },
-    methods: {},
-    components: {},
-    computed: {}
+    }
   }
 </script>
 
