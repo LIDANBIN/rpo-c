@@ -18,9 +18,13 @@ let removeDom = (event) => {
 	}
 }
 
-ToastConstructor.prototype.close = function () {
+MessageBoxConstructor.prototype.close = function () {
 	this.visible = false;
 	this.$el.addEventListener('transitionend', removeDom);
 	this.closed = true;
 	return this;
+}
+
+let MessageBox = (options = {}) => {
+	
 }
