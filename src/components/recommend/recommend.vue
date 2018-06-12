@@ -39,7 +39,6 @@ export default {
     onInfinite(done) {
       window.setTimeout(() => {
         // 刷新数据
-        console.log(111, this);
         let isDone = this.recommendLists.length > 40;
         if (!isDone) {
           this.recommendLists = this.recommendLists.concat([1, 2, 3, 4, 5, 6, 7, 8]);
