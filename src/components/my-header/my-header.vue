@@ -15,7 +15,7 @@ export default {
   props: ["type", "scrollTop"],
   methods: {
     handleClick() {
-      this.$toast({
+      this.$message({
         iconClass: 'icon-dingbu',
         message: '返回顶部'
       })

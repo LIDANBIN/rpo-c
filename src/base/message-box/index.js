@@ -1,8 +1,8 @@
 import Vue from 'vue'
-import MessageBox from './message-box'
+import VueMessageBox from './message-box'
 import tool from "&/scripts/tools";
 
-let MessageBoxConstructor = Vue.extend(MessageBox)
+let MessageBoxConstructor = Vue.extend(VueMessageBox)
 
 let createMessageBox = () => {
 	return new MessageBoxConstructor({
@@ -19,9 +19,10 @@ let removeDom = (event) => {
 }
 
 MessageBoxConstructor.prototype.close = function () {
-	this.visible = false;
+	if (instance) {
+    instance.value = false;
+	}
 	this.$el.addEventListener('transitionend', removeDom);
-	this.closed = true;
 	return this;
 }
 
@@ -46,7 +47,7 @@ let defaultOptions = {
  * @param {Boolean} showCancelButton - Whether to show cancel button
  * @param {String} confirmButtonText - Confirm button text
  * @param {String} cancelButtonText - Cancel button text
- * @param {Boolean} overlay - Display mask
+ * @param {Boolean} overlay - Whether to display mask
  * @param {Boolean} closeOnClickOverlay - Whether to close the popup when clicking on the mask
  */
 
@@ -72,11 +73,5 @@ MessageBox.confirm = options => MessageBox({
 	showCancelButton: true,
 	...options
 })
-
-MessageBox.close = () => {
-	if (instance) {
-    instance.value = false;
-  }
-}
 
 export default MessageBox;

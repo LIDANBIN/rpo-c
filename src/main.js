@@ -29,4 +29,6 @@ new Vue({
 
 
 import Toast from 'base/toast'
+import MessageBox from 'base/message-box'
 Vue.prototype.$toast = Toast
+Vue.prototype.$message = MessageBox
