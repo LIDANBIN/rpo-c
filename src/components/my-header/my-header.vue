@@ -13,12 +13,18 @@
 export default {
   name: "my-header",
   props: ["type", "scrollTop"],
+  created() {
+    this.$on('click', () => {
+      // this.value = false
+    })
+  },
   methods: {
     handleClick() {
-      this.$message({
-        iconClass: 'icon-dingbu',
-        message: '返回顶部'
-      })
+      // this.$message({
+      //   iconClass: 'icon-dingbu',
+      //   message: '返回顶部'
+      // })
+      this.$emit('click')
     }
   },
   watch: {
