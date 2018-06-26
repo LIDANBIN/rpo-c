@@ -3,20 +3,18 @@
 		<div
 			v-show="visible"
 		>
-
 		</div>
   </transition>
 </template>
-
 <script>
-export default {
-	props: {
-		visible: {
-			type: Boolean,
-			default: true
+	export default {
+		props: {
+			visible: {
+				type: Boolean,
+				default: true
+			}
 		}
 	}
-}
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
